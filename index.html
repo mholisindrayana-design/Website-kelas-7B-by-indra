@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMPK Negeri 2 Randuagung - Kelas 7B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== LOGIN GATE ===== */
+        .login-gate {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .login-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            color: white;
+            font-size: 2.2rem;
+        }
+
+        .login-card h2 { color: #2d3748; margin-bottom: 0.3rem; font-size: 1.6rem; }
+        .login-card p { color: #718096; margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+        .login-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .login-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.15);
+        }
+
+        .login-input.error {
+            border-color: #e53e3e;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        .login-error {
+            color: #e53e3e;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+            display: none;
+            font-weight: 600;
+        }
+
+        .login-error.show { display: block; }
+
+        .login-hint {
+            color: #a0aec0;
+            font-size: 0.8rem;
+            margin-top: 0.6rem;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content { display: none; }
+
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: #667eea; }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 0.3rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .logout-btn:hover { opacity: 1; }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #667eea;
+        }
+
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.3rem 2rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .stat-card h3 { font-size: 1.8rem; margin-bottom: 0.2rem; }
+        .stat-card p { font-size: 0.85rem; margin: 0; opacity: 0.9; }
+
+        /* School Info Bar */
+        .school-bar {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            margin: 0 auto 2rem;
+            max-width: 800px;
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .school-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .school-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255,255,255,0.4);
+        }
+
+        .school-address {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .school-address:hover {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        .school-address i { color: #25d366; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* Jadwal */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .day-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.3rem;
+            border-radius: 18px;
+        }
+
+        .day-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 0.4rem;
+        }
+
+        .day-card ul { list-style: none; }
+
+        .day-card li {
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .day-card li::before { content: '📚'; font-size: 0.85rem; }
+
+        /* Struktur */
+        .structure-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .structure-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .role-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 200px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.15);
+        }
+
+        .role-icon {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.8rem;
+            color: white;
+            font-size: 1.4rem;
+        }
+
+        .role-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .role-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .wali-card {
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: white;
+        }
+
+        .wali-card .role-icon { background: white; color: #fda085; }
+        .wali-card .role-title { color: rgba(255,255,255,0.9); }
+        .wali-card .role-name { color: white; }
+
+        .ketua-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .ketua-card .role-icon { background: white; color: #667eea; }
+        .ketua-card .role-title { color: rgba(255,255,255,0.9); }
+        .ketua-card .role-name { color: white; }
+
+        .connector {
+            width: 2px;
+            height: 25px;
+            background: linear-gradient(to bottom, #667eea, transparent);
+            opacity: 0.3;
+        }
+
+        /* Pengunjung */
+        .visitor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .visitor-count {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .btn-clear-all {
+            background: linear-gradient(135deg, #fc8181, #f56565);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-clear-all:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+        }
+
+        .visitor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .visitor-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visitor-card:hover {
+            transform: translateY(-4px);
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.12);
+        }
+
+        .visitor-card:hover .visitor-delete {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .visitor-avatar {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.7rem;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .visitor-name {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .visitor-time {
+            font-size: 0.75rem;
+            color: #718096;
+        }
+
+        .visitor-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            background: rgba(229, 62, 62, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .visitor-delete:hover {
+            background: #c53030;
+            transform: scale(1.1) !important;
+        }
+
+        /* Galeri + Upload */
+        .upload-area {
+            border: 3px dashed #cbd5e0;
+            border-radius: 18px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: #f7fafc;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #667eea;
+            background: rgba(102,126,234,0.05);
+        }
+
+        .upload-area i {
+            font-size: 2.5rem;
+            color: #a0aec0;
+            margin-bottom: 0.8rem;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .upload-area:hover i { color: #667eea; }
+
+        .upload-area h3 { color: #2d3748; font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .upload-area p { color: #718096; font-size: 0.85rem; }
+        .upload-area input { display: none; }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover { transform: scale(1.03); }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover::after { transform: translateY(0); }
+
+        .gallery-item .delete-btn {
+            position: absolute;
+            top: 8px; right: 8px;
+            width: 32px; height: 32px;
+            background: rgba(229,62,62,0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .gallery-item:hover .delete-btn { opacity: 1; }
+        .gallery-item .delete-btn:hover { background: #c53030; transform: scale(1.1); }
+
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: #a0aec0;
+        }
+
+        .gallery-empty i { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+
+        .upload-toast {
+            position: fixed;
+            top: 20px; right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 9998;
+            font-weight: 600;
+            color: #667eea;
+            animation: slideDown 0.3s ease;
+        }
+
+        .upload-toast.active { display: flex; }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Pengumuman */
+        .announcement {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 1.3rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .announcement.important {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        .announcement i { font-size: 1.8rem; }
+
+        .announcement-content h4 { margin-bottom: 0.2rem; font-size: 1.05rem; }
+
+        .announcement-content p { font-size: 0.85rem; opacity: 0.9; }
+
+        .announcement-date {
+            margin-left: auto;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+
+        /* Footer & WA */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            background: rgba(0,0,0,0.2);
+            margin-top: 2rem;
+        }
+
+        footer p { opacity: 0.85; font-size: 0.9rem; }
+
+        .wa-float {
+            position: fixed;
+            bottom: 25px; right: 25px;
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        .wa-button {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            padding: 0.9rem 1.6rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 25px rgba(37,211,102,0.4);
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        .wa-button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(37,211,102,0.5);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(37,211,102,0); }
+            100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                gap: 1rem;
+            }
+            .nav-links.active { display: flex; }
+            .mobile-menu { display: block; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { flex-direction: column; gap: 1rem; }
+            .section { padding: 1.8rem 1.2rem; }
+            .structure-row { gap: 1rem; }
+            .wa-button span { display: none; }
+            .wa-button i { font-size: 1.6rem; margin: 0; }
+            .login-card { padding: 2rem 1.3rem; }
+            .visitor-delete { opacity: 1; transform: scale(1); }
+            .school-bar { flex-direction: column; gap: 0.5rem; }
+            .school-divider { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN GATE - WAJIB ISI NAMA -->
+    <div class="login-gate" id="loginGate">
+        <div class="login-card">
+            <div class="login-icon"><i class="fas fa-lock"></i></div>
+            <h2>Akses Ditolak!</h2>
+            <p>Kamu harus mengisi nama terlebih dahulu untuk masuk ke website Kelas 7B</p>
+            <input type="text" class="login-input" id="usernameInput" placeholder="Masukkan nama lengkap kamu..." maxlength="30" autocomplete="off">
+            <button class="btn-login" id="loginBtn" onclick="handleLogin()">
+                <i class="fas fa-sign-in-alt"></i> Masuk ke Website
+            </button>
+            <div class="login-error" id="loginError">
+                <i class="fas fa-exclamation-circle"></i> Nama wajib diisi! Silakan ketik nama kamu.
+            </div>
+            <div class="login-hint"><i class="fas fa-info-circle"></i> Tekan Enter atau klik tombol Masuk</div>
+        </div>
+    </div>
+
+    <!-- Upload Toast -->
+    <div class="upload-toast" id="uploadToast">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Memproses foto...</span>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+        <header>
+            <nav>
+                <a href="#" class="logo"><i class="fas fa-graduation-cap"></i> Kelas 7B</a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#jadwal">Jadwal</a></li>
+                    <li><a href="#struktur">Struktur</a></li>
+                    <li><a href="#pengunjung">Pengunjung</a></li>
+                    <li><a href="#pengumuman">Pengumuman</a></li>
+                    <li><a href="#galeri">Galeri</a></li>
+                    <li>
+                        <div class="user-badge">
+                            <i class="fas fa-user"></i>
+                            <span id="displayUsername">User</span>
+                            <button class="logout-btn" onclick="handleLogout()" title="Keluar">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mobile-menu" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            </nav>
+        </header>
+
+        <section class="hero" id="beranda">
+            <h1>Selamat Datang di Kelas 7B! 🎓</h1>
+            <p>Kelas yang penuh semangat, kreativitas, dan prestasi.</p>
+
+            <!-- SCHOOL INFO BAR -->
+            <div class="school-bar">
+                <div class="school-name">
+                    <i class="fas fa-school"></i>
+                    SMPK Negeri 2 Randuagung
+                </div>
+                <div class="school-divider"></div>
+                <a href="https://maps.app.goo.gl/3x9ADpoYvug2dqQV9?g_st=ac" class="school-address" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Lihat Alamat di Maps</span>
+                    <i class="fas fa-external-link-alt" style="font-size: 0.7rem;"></i>
+                </a>
+            </div>
+
+            <a href="#jadwal" class="btn">Lihat Jadwal</a>
+            <div class="hero-stats">
+                <div class="stat-card"><h3>34</h3><p>Jumlah Siswa</p></div>
+                <div class="stat-card"><h3>13</h3><p>Mata Pelajaran</p></div>
+                <div class="stat-card"><h3>#1</h3><p>Juara Kelas</p></div>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- JADWAL -->
+            <section class="section" id="jadwal">
+                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</h2>
+                <div class="schedule-grid">
+                    <div class="day-card"><h3>Senin</h3><ul><li>IPA</li><li>PAI</li><li>TIK</li></ul></div>
+                    <div class="day-card"><h3>Selasa</h3><ul><li>PPKn</li><li>Penjas</li><li>MTK</li></ul></div>
+                    <div class="day-card"><h3>Rabu</h3><ul><li>BIG</li><li>MTK</li><li>BIG</li><li>BIN</li></ul></div>
+                    <div class="day-card"><h3>Kamis</h3><ul><li>BIN</li><li>IPS</li><li>SB</li><li>IPA</li></ul></div>
+                    <div class="day-card"><h3>Jumat</h3><ul><li>IPS</li><li>Koding</li></ul></div>
+                    <div class="day-card"><h3>Sabtu</h3><ul><li>BD</li><li>BIN</li><li>GSM</li><li>Pramuka</li></ul></div>
+                </div>
+            </section>
+
+            <!-- STRUKTUR -->
+            <section class="section" id="struktur">
+                <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur Kelas</h2>
+                <div class="structure-container">
+                    <div class="role-card wali-card">
+                        <div class="role-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="role-title">Wali Kelas</div>
+                        <div class="role-name">Badiatul Lutfiyah</div>
+                    </div>
+                    <div class="connector"></div>
+                    <div class="structure-row">
+                        <div class="role-card ketua-card">
+                            <div class="role-icon"><i class="fas fa-crown"></i></div>
+                            <div class="role-title">Ketua Kelas</div>
+                            <div class="role-name">Feodora Regina Labibah</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-icon"><i class="fas fa-handshake"></i></div>
+                            <div class="role-title">Wakil Kelas</div>
+                            <div class="role-name">Ahmad Fariq Al Hafiz</div>
+                        </div>
+                    </div>
+                    <div class="connector"></div>
+                    <div class="structure-row">
+                        <div class="role-card">
+                            <div class="role-icon"><i class="fas fa-pen-nib"></i></div>
+                            <div class="role-title">Sekretaris 1</div>
+                            <div class="role-name">Ilmalatul Muayanah</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-icon"><i class="fas fa-pen-nib"></i></div>
+                            <div class="role-title">Sekretaris 2</div>
+                            <div class="role-name">Naura Zahratul Jannah</div>
+                        </div>
+                    </div>
+                    <div class="connector"></div>
+                    <div class="structure-row">
+                        <div class="role-card">
+                            <div class="role-icon"><i class="fas fa-wallet"></i></div>
+                            <div class="role-title">Bendahara</div>
+                            <div class="role-name">Nailatul Muayanah</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PENGUNJUNG -->
+            <section class="section" id="pengunjung">
+                <h2 class="section-title"><i class="fas fa-users"></i> Daftar Pengunjung</h2>
+                <div class="visitor-header">
+                    <div class="visitor-count" id="visitorCount">0 pengunjung</div>
+                    <button class="btn-clear-all" onclick="clearAllVisitors()" title="Hapus semua pengunjung">
+                        <i class="fas fa-trash-alt"></i> Hapus Semua
+                    </button>
+                </div>
+                <div class="visitor-grid" id="visitorGrid"></div>
+            </section>
+
+            <!-- PENGUMUMAN -->
+            <section class="section" id="pengumuman">
+                <h2 class="section-title"><i class="fas fa-bullhorn"></i> Pengumuman</h2>
+                <div class="announcement important">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="announcement-content">
+                        <h4>Ujian Semester Genap</h4>
+                        <p>Ujian akan dilaksanakan pada tanggal 2-7 Juni 2026. Persiapkan diri dengan baik!</p>
+                    </div>
+                    <span class="announcement-date">20 Mei 2026</span>
+                </div>
+                <div class="announcement">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="announcement-content">
+                        <h4>Jadwal Piket Kelas</h4>
+                        <p>Jangan lupa membersihkan kelas sesuai jadwal piket yang telah ditentukan.</p>
+                    </div>
+                    <span class="announcement-date">18 Mei 2026</span>
+                </div>
+            </section>
+
+            <!-- GALERI + UPLOAD -->
+            <section class="section" id="galeri">
+                <h2 class="section-title"><i class="fas fa-images"></i> Galeri Kelas</h2>
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Klik atau Drop Foto Disini</h3>
+                    <p>Format: JPG, PNG, WEBP (Maks. 2MB per foto)</p>
+                    <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileSelect(event)">
+                </div>
+                <div class="gallery" id="galleryGrid"></div>
+            </section>
+        </div>
+
+        <footer>
+            <p> Dibuat oleh Indraofficial 🗿 | 2026</p>
+            <p style="margin-top:0.4rem; font-size:0.85rem;">Semangat Belajar, Raih Prestasi!</p>
+        </footer>
+
+        <a href="https://wa.me/6285196233905?text=" class="wa-float" target="_blank" rel="noopener noreferrer">
+            <div class="wa-button"><i class="fab fa-whatsapp"></i> <span>Hubungi Kami</span></div>
+        </a>
+    </div>
+
+    <script>
+        /* ===== LOGIN SYSTEM - WAJIB ISI NAMA ===== */
+        const loginGate = document.getElementById('loginGate');
+        const mainContent = document.getElementById('mainContent');
+        const usernameInput = document.getElementById('usernameInput');
+        const loginError = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+        const displayUsername = document.getElementById('displayUsername');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('currentUser');
+            if (saved) {
+                showMain(saved);
+            }
+            renderVisitors();
+            renderGallery();
+        });
+
+        usernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        usernameInput.addEventListener('input', () => {
+            usernameInput.classList.remove('error');
+            loginError.classList.remove('show');
+        });
+
+        function handleLogin() {
+            const name = usernameInput.value.trim();
+
+            if (!name || name === '') {
+                usernameInput.classList.add('error');
+                loginError.classList.add('show');
+                usernameInput.focus();
+
+                loginBtn.style.animation = 'shake 0.4s ease';
+                setTimeout(() => { loginBtn.style.animation = ''; }, 400);
+
+                return;
+            }
+
+            usernameInput.classList.remove('error');
+            loginError.classList.remove('show');
+
+            localStorage.setItem('currentUser', name);
+            addVisitor(name);
+            showMain(name);
+        }
+
+        function showMain(name) {
+            loginGate.style.display = 'none';
+            mainContent.style.display = 'block';
+            displayUsername.textContent = name;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('currentUser');
+            loginGate.style.display = 'flex';
+            mainContent.style.display = 'none';
+            usernameInput.value = '';
+            usernameInput.classList.remove('error');
+            loginError.classList.remove('show');
+            usernameInput.focus();
+        }
+
+        /* ===== VISITOR SYSTEM + HAPUS ===== */
+        function getVisitors() {
+            const data = localStorage.getItem('visitors');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveVisitors(list) {
+            localStorage.setItem('visitors', JSON.stringify(list));
+        }
+
+        function addVisitor(name) {
+            let list = getVisitors();
+            const now = new Date();
+            const time = now.toLocaleString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const idx = list.findIndex(v => v.name.toLowerCase() === name.toLowerCase());
+
+            if (idx !== -1) {
+                list[idx].time = time;
+                const updated = list.splice(idx, 1)[0];
+                list.unshift(updated);
+            } else {
+                list.unshift({ name, time });
+            }
+
+            if (list.length > 50) list = list.slice(0, 50);
+
+            saveVisitors(list);
+            renderVisitors();
+        }
+
+        function deleteVisitor(index) {
+            if (!confirm('Yakin mau hapus pengunjung ini?')) return;
+
+            let list = getVisitors();
+            list.splice(index, 1);
+            saveVisitors(list);
+            renderVisitors();
+        }
+
+        function clearAllVisitors() {
+            const list = getVisitors();
+            if (list.length === 0) {
+                alert('Belum ada pengunjung!');
+                return;
+            }
+
+            if (!confirm(`Yakin mau hapus semua ${list.length} pengunjung?`)) return;
+
+            localStorage.removeItem('visitors');
+            renderVisitors();
+        }
+
+        function renderVisitors() {
+            const list = getVisitors();
+            document.getElementById('visitorCount').textContent = `${list.length} pengunjung`;
+            const grid = document.getElementById('visitorGrid');
+
+            if (list.length === 0) {
+                grid.innerHTML = `
+                    <div class="gallery-empty">
+                        <i class="fas fa-user-slash"></i>
+                        <p>Belum ada pengunjung</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map((v, i) => `
+                <div class="visitor-card">
+                    <button class="visitor-delete" onclick="deleteVisitor(${i})" title="Hapus pengunjung">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="visitor-avatar">${v.name.charAt(0).toUpperCase()}</div>
+                    <div class="visitor-name">${v.name}</div>
+                    <div class="visitor-time"><i class="far fa-clock"></i> ${v.time}</div>
+                </div>
+            `).join('');
+        }
+
+        /* ===== GALLERY UPLOAD ===== */
+        const MAX_SIZE = 2 * 1024 * 1024;
+        const MAX_PHOTOS = 25;
+        const uploadToast = document.getElementById('uploadToast');
+        const uploadArea = document.getElementById('uploadArea');
+
+        function getPhotos() {
+            const data = localStorage.getItem('galleryPhotos');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function savePhotos(list) {
+            localStorage.setItem('galleryPhotos', JSON.stringify(list));
+        }
+
+        function renderGallery() {
+            const photos = getPhotos();
+            const grid = document.getElementById('galleryGrid');
+            let html = '';
+
+            photos.forEach((p, i) => {
+                html += `
+                <div class="gallery-item" data-title="${p.name}">
+                    <img src="${p.data}" alt="${p.name}" loading="lazy">
+                    <button class="delete-btn" onclick="deletePhoto(${i})" title="Hapus">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>`;
+            });
+
+            const defaults = [
+                {icon: 'fa-camera', title: 'Foto Bersama Kelas'},
+                {icon: 'fa-campground', title: 'Kegiatan Pramuka'},
+                {icon: 'fa-flag', title: 'Lomba 17 Agustus'},
+                {icon: 'fa-bus', title: 'Study Tour'},
+                {icon: 'fa-chalkboard-teacher', title: 'Hari Guru'},
+                {icon: 'fa-dove', title: 'Peringatan HUT RI'}
+            ];
+
+            defaults.forEach(d => {
+                html += `<div class="gallery-item" data-title="${d.title}"><i class="fas ${d.icon}"></i></div>`;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            if (!files.length) return;
+
+            let photos = getPhotos();
+
+            if (photos.length + files.length > MAX_PHOTOS) {
+                alert(`Maksimal ${MAX_PHOTOS} foto. Sudah ada ${photos.length}.`);
+                return;
+            }
+
+            uploadToast.classList.add('active');
+            let done = 0;
+
+            files.forEach(file => {
+                if (!file.type.startsWith('image/')) {
+                    done++;
+                    if (done === files.length) finishUpload();
+                    return;
+                }
+
+                if (file.size > MAX_SIZE) {
+                    alert(`${file.name} terlalu besar (max 2MB)`);
+                    done++;
+                    if (done === files.length) finishUpload();
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        let w = img.width, h = img.height;
+                        const max = 800;
+
+                        if (w > max || h > max) {
+                            if (w > h) { h = h / w * max; w = max; }
+                            else { w = w / h * max; h = max; }
+                        }
+
+                        canvas.width = w;
+                        canvas.height = h;
+                        ctx.drawImage(img, 0, 0, w, h);
+
+                        const data = canvas.toDataURL('image/jpeg', 0.8);
+
+                        photos.unshift({
+                            name: file.name.replace(/\.[^/.]+$/, ""),
+                            data: data,
+                            date: new Date().toISOString()
+                        });
+
+                        if (photos.length > MAX_PHOTOS) {
+                            photos = photos.slice(0, MAX_PHOTOS);
+                        }
+
+                        savePhotos(photos);
+                        done++;
+                        if (done === files.length) finishUpload();
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            function finishUpload() {
+                renderGallery();
+                uploadToast.classList.remove('active');
+                document.getElementById('fileInput').value = '';
+            }
+        }
+
+        function deletePhoto(index) {
+            if (!confirm('Hapus foto ini?')) return;
+            let photos = getPhotos();
+            photos.splice(index, 1);
+            savePhotos(photos);
+            renderGallery();
+        }
+
+        uploadArea.addEventListener('dragover', e => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const dt = new DataTransfer();
+            Array.from(e.dataTransfer.files).forEach(f => dt.items.add(f));
+            const input = document.getElementById('fileInput');
+            input.files = dt.files;
+            handleFileSelect({ target: input });
+        });
+
+        /* ===== UI UTILS ===== */
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const t = document.querySelector(this.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        document.querySelector('footer p').innerHTML = ` Dibuat oleh Indraofficial 🗿 | ${new Date().getFullYear()}`;
+    </script>
+</body>
+</html>
